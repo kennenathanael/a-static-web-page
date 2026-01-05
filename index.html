@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seán - Designer Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #e8e4d9 0%, #d4d9c8 50%, #c8d4c8 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            padding: 20px 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 15px 50px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Star logo in nav 
+        .nav-logo {
+            position: absolute;
+            left: 30px;
+            width: 35px;
+            height: 35px;
+        }
+
+        .nav-logo::before,
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            background-color: #0d5f5f;
+        }
+
+        .nav-logo::before {
+            width: 100%;
+            height: 20%;
+            top: 40%;
+            left: 0;
+        }
+
+        .nav-logo::after {
+            width: 20%;
+            height: 100%;
+            top: 0;
+            left: 40%;
+        }
+*/
+        /* Theme toggle button */
+        .theme-toggle {
+            position: absolute;
+            right: 30px;
+            width: 35px;
+            height: 35px;
+            background: #0d5f5f;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        nav a {
+            color: #0d5f5f;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #5a6b5a;
+        }
+
+        nav a.active {
+            color: #0d5f5f;
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #0d5f5f;
+            border-radius: 2px;
+        }
+
+        nav a:first-child::after {
+            content: '/';
+            margin-left: 50px;
+            color: #0d5f5f;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 180px 40px 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Decorative stars */
+        .star {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+        }
+
+        .star::before,
+        .star::after {
+            
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .star::before {
+            width: 100%;
+            height: 20%;
+            top: 40%;
+            left: 0;
+        }
+
+        .star::after {
+            width: 20%;
+            height: 100%;
+            top: 0;
+            left: 40%;
+        }
+
+        .star-top-right {
+            top: 120px;
+            right: 15%;
+            width: 70px;
+            height: 70px;
+        }
+
+        .star-left {
+            top: 50%;
+            left: 10%;
+            width: 55px;
+            height: 55px;
+            transform: translateY(-50%);
+        }
+
+        /* Heading */
+        h1 {
+            font-size: clamp(60px, 10vw, 120px);
+            font-weight: 800;
+            line-height: 1.1;
+            color: #0d5f5f;
+            margin-bottom: 50px;
+        }
+    
+        .accent {
+            color: #0d5f5f;
+        }
+
+        /* Description */
+        .description {
+            font-size: clamp(18px, 2vw, 24px);
+            color: #5a6b5a;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            nav {
+                gap: 30px;
+            }
+
+            nav a:first-child::after {
+                margin-left: 30px;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+
+            .star-top-right,
+            .star-left {
+                display: none;
+            }
+        }
+
+        /* Projects Container */
+        .projects-container {
+            max-width: 1400px;
+            margin: 80px auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        /* Project Card */
+        .project-card {
+            border-radius: 50px;
+            padding: 60px 50px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .purple-card {
+            background: linear-gradient(135deg, #c9a8e8 0%, #b88fe0 100%);
+            width: 334.84px;
+        }
+
+        .teal-card {
+            background: linear-gradient(135deg, #a8ddd8 0%, #8dd4ce 100%);
+        }
+
+        .coral-card {
+            background: linear-gradient(135deg, #f0b8a0 0%, #e8a88e 100%);
+            height: 550px;
+        }
+
+        .blue-card {
+            background: linear-gradient(135deg, #b8d8f0 0%, #a0c8e8 100%);
+             height: 550px;
+             width: 334.84px;
+             margin-left: auto;
+        }
+
+        .white-card {
+            background: linear-gradient(135deg, #f5f5f0 0%, #e8e8e0 100%);
+             height: 550px;
+        }
+
+        .dark-card {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+             height: 550px;
+             width: 425px;
+             margin-left: auto;
+        }
+
+        /* Light text variants for dark card */
+        .card-label-light {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #b8b8b8;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .card-title-light {
+            font-size: clamp(50px, 6vw, 80px);
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        /* Footer */
+        .footer {
+            max-width: 1400px;
+            margin: 120px auto 0;
+            padding: 60px 40px 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 80px;
+        }
+
+        .footer-left {
+            flex: 1;
+        }
+
+        .copyright {
+            font-size: 16px;
+            color: #5a6b5a;
+            margin: 0;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 120px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-heading {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0d5f5f;
+            margin: 0 0 20px 0;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: #5a6b5a;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #0d5f5f;
+        }
+
+        /* Timeline */
+        .timeline-container {
+            position: relative;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timeline {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(
+                to right,
+                rgba(93, 107, 93, 0.2) 0%,
+                rgba(93, 107, 93, 0.2) 20%,
+                rgba(13, 95, 95, 0.4) 35%,
+                rgba(13, 95, 95, 0.6) 45%,
+                rgba(13, 95, 95, 0.8) 50%,
+                rgba(13, 95, 95, 0.6) 55%,
+                rgba(13, 95, 95, 0.4) 65%,
+                rgba(93, 107, 93, 0.2) 80%,
+                rgba(93, 107, 93, 0.2) 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-linear-gradient(
+                to right,
+                transparent,
+                transparent 4.5%,
+                rgba(93, 107, 93, 0.3) 4.5%,
+                rgba(93, 107, 93, 0.3) 5%
+            );
+        }
+
+        .timeline-toggle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #0d5f5f;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(13, 95, 95, 0.3);
+        }
+
+        .timeline-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(13, 95, 95, 0.4);
+        }
+
+        .timeline-toggle svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* In Progress Section */
+        .in-progress-section {
+            max-width: 1200px;
+            margin: 120px auto 80px;
+            padding: 0 40px;
+            text-align: center;
+        }
+
+        .progress-title {
+            font-size: clamp(60px, 8vw, 100px);
+            font-weight: 800;
+            color: #0d5f5f;
+            margin-bottom: 30px;
+        }
+
+        .progress-description {
+            font-size: clamp(18px, 2vw, 22px);
+            color: #5a6b5a;
+            line-height: 1.7;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Card Header */
+        .card-header {
+            margin-bottom: 30px;
+        }
+
+        .card-label {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #4a4a4a;
+            display: block;
+            margin-bottom: 10px;
+            width: 446px;
+            height: 45px;
+        }
+
+        .card-title {
+            font-size: clamp(50px, 6vw, 80px);
+            font-weight: 800;
+            color: #2d2d2d;
+            margin: 0;
+           
+        }
+
+        /* Card Image */
+        .card-image {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Responsive for cards */
+        @media (max-width: 1024px) {
+            .projects-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .project-card {
+                padding: 40px 30px;
+                min-height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                gap: 25px;
+                padding: 15px 30px;
+            }
+
+            .nav-logo {
+                left: 15px;
+                width: 28px;
+                height: 28px;
+            }
+
+            .theme-toggle {
+                right: 15px;
+                width: 30px;
+                height: 30px;
+            }
+
+            nav a {
+                font-size: 15px;
+            }
+
+            nav a:first-child::after {
+                margin-left: 25px;
+            }
+
+            .in-progress-section {
+                margin: 80px auto 60px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .footer-right {
+                gap: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+      
+        <a href="#work" class="active">Work</a>
+        <a href="#about">About</a>
+        <a href="#play">Play</a>
+        <a href="#notes">Notes</a>
+        <a href="#contact">Contact</a>
+      
+    </nav>
+
+    <script>
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Active link highlighting
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+    <div class="container">
+        <div class="star star-top-right">
+            <img src="star-1.svg" alt="Articles Interface">
+        </div>
+        <div class="star star-left">
+            <img src="star-1.svg" alt="Articles Interface">
+        </div>
+        
+        <h1>
+            Hi. I'm Seán.<br>
+            A Designer.
+        </h1>
+        
+        <p class="description">
+            I'm passionate about crafting experiences that are engaging, accessible,<br>
+            and user-centric.
+        </p>
+    </div>
+
+    <!-- Project Cards Section -->
+    <div class="projects-container">
+        <!-- AI Card -->
+        <div class="project-card purple-card">
+            <div class="card-header">
+                <span class="card-label">HELP SCOUT</span>
+                <h2 class="card-title">AI</h2>
+            </div>
+            <div class="card-image">
+                <img src="ai.png" alt="AI Interface">
+            </div>
+        </div>
+
+        <!-- Articles Card -->
+        <div class="project-card teal-card">
+            <div class="card-header">
+                <span class="card-label">HELP SCOUT</span>
+                <h2 class="card-title">Articles</h2>
+            </div>
+            <div class="card-image">
+                <img src="docs.png" alt="Articles Interface">
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Row of Projects -->
+    <div class="projects-container">
+        <!-- Plugins Card -->
+        <div class="project-card coral-card">
+            <div class="card-header">
+                <span class="card-label">FIGMA</span>
+                <h2 class="card-title">Plugins</h2>
+            </div>
+            <div class="card-image">
+                <img src="figma.png" alt="Figma Plugins">
+            </div>
+        </div>
+
+        <!-- Mobile Card -->
+        <div class="project-card blue-card 1">
+            <div class="card-header">
+                <span class="card-label">HELP SCOUT</span>
+                <h2 class="card-title">Mobile</h2>
+            </div>
+            <div class="card-image">
+                <img src="hs.png" alt="Mobile Interface">
+            </div>
+        </div>
+    </div>
+
+    <!-- In Progress Section -->
+    <div class="in-progress-section">
+        <h2 class="progress-title">In Progress.</h2>
+        <p class="progress-description">
+            Work in various states of design and development, from side projects, to<br>
+            in-flight product design and development.
+        </p>
+    </div>
+
+    <!-- Third Row of Projects -->
+    <div class="projects-container">
+        <!-- Doodler Card -->
+        <div class="project-card white-card">
+            <div class="card-header">
+                <span class="card-label">MULTIPLAYER</span>
+                <h2 class="card-title">Doodler</h2>
+            </div>
+            <div class="card-image">
+                <img src="doodler.png" alt="Doodler Interface">
+            </div>
+        </div>
+
+        <!-- Droplette Card -->
+        <div class="project-card dark-card">
+            <div class="card-header">
+                <span class="card-label-light">FIGMA</span>
+                <h2 class="card-title-light">Droplette</h2>
+            </div>
+            <div class="card-image">
+                <img src="hp-droplette.png" alt="Droplette Interface">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p class="copyright">© 2025 Seán Halpin • Colophon</p>
+            </div>
+            
+            <div class="footer-right">
+                <div class="footer-column">
+                    <h3 class="footer-heading">Elsewhere</h3>
+                    <ul class="footer-links">
+                        <li><a href="#figma">Figma</a></li>
+                        <li><a href="#github">Github</a></li>
+                        <li><a href="#posts">Posts</a></li>
+                        <li><a href="#cv">CV</a></li>
+                        <li><a href="#linkedin">LinkedIn</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="#message">Message</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme Toggle Timeline -->
+        <div class="timeline-container">
+            <div class="timeline"></div>
+            <button class="timeline-toggle" aria-label="Toggle theme">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+            </button>
+        </div>
+    </footer>
+</body>
+</html>
